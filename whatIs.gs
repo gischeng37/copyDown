@@ -1,0 +1,35 @@
+function copyDown_whatIs() {
+  var app = UiApp.createApplication().setHeight(550);
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var panel = app.createVerticalPanel();
+  var autoGrid = app.createGrid(1, 2);
+  var image = app.createImage(this.COPYDOWNIMAGEURL);
+  image.setHeight("100px");
+  var label = app.createLabel("copyDown: Reduce the complexity and speed up the performance of your Google Spreadsheets without losing the power of complex formulas!");
+  label.setStyleAttribute('fontSize', '1.5em').setStyleAttribute('fontWeight', 'bold');
+  autoGrid.setWidget(0, 0, image);
+  autoGrid.setWidget(0, 1, label);
+  var mainGrid = app.createGrid(4, 1);
+  var html = "<h3>Features</h3>";
+      html += "<ul><li>Copies formulas down to the bottom of the data they reference.</li>";
+      html += "<li>Allows each formula to be copied down as a live formula or to be recalculated and pasted as values.</li>";
+      html += "<li>Snappy user interface makes the selection of formulas a breeze.</li>";
+      html += "<li>Can run on multiple sheets in the same spreadsheet.</li>";
+      html += "<li>Great for reducing the performance drag caused by VLOOKUP, SUMIF, COUNTIF, COUNT(FILTER()) and other useful beasties.</li>"; 
+      html += "<li>Doesn't alter the structure or look or feel of your spreadsheet, add dummy rows, or otherwise get noticed by view-only users.</li>";
+      html += "<li>Can be run manually or set to run on a time or formsubmit trigger (set your triggers on the runCopyDown function)</li>";
+      html += "<li>Built to recover from Apps Script timeouts that occur after 5 minutes of runtime.  Script attempts a trigger-based auto-recovery.</li>";
+      html += "<li>Great for formulas involving lookups or tallies on large data-sets, like cumulative attendance, cumulative latenesses, cumulative anything...</li></ul>"; 
+  mainGrid.setWidget(0, 0, app.createHTML(html));
+  var sponsorLabel = app.createLabel("Brought to you by");
+  var sponsorImage = app.createImage("http://www.youpd.org/sites/default/files/acquia_commons_logo36.png");
+  var supportLink = app.createAnchor('Watch the tutorial!', 'http://www.youpd.org/copydown');
+  mainGrid.setWidget(1, 0, sponsorLabel);
+  mainGrid.setWidget(2, 0, sponsorImage);
+  mainGrid.setWidget(3, 0, supportLink);
+  app.add(autoGrid);
+  panel.add(mainGrid);
+  app.add(panel);
+  ss.show(app);
+  return app;                                                                    
+}
