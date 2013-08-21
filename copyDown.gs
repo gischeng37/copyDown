@@ -3,6 +3,9 @@ var scriptTitle = "copyDown Script V2.2 (11/7/12)";
 // Published under GNU General Public License, version 3 (GPL-3.0)
 // See restrictions at http://www.opensource.org/licenses/gpl-3.0.html
 // Support and contact at http://www.youpd.org/copydown
+var scriptTrackingId = "UA-31030730-1"
+var scriptName = "copyDown"
+
 
 var ss = SpreadsheetApp.getActiveSpreadsheet();
 var alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","AA","AB","AC","AD","AE","AF","AG","AH","AI","AJ","AK","AL","AM","AN","AO","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ"];
