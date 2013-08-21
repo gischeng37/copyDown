@@ -1,32 +1,44 @@
-function copyDown_extractorWindow () {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var properties = ScriptProperties.getProperties();
-  properties.preconfigStatus = false;
-  var propertyString = '';
-  for (var key in properties) {
-    if (properties[key]!='') {
-     // var keyProperty = properties[key];
-      var keyProperty = properties[key].replace(/[/\\*]/g, "\\\\");                                     
-      propertyString += "   ScriptProperties.setProperty('" + key + "','" + keyProperty + "');\n";
-    }
-  }
-  var app = UiApp.createApplication().setHeight(500).setWidth(600).setTitle("Export preconfig() settings");
-  var panel = app.createVerticalPanel().setWidth("100%").setHeight("100%");
-  var labelText = "Copying a Google Spreadsheet copies scripts along with it, but without any of the script settings saved.  This normally makes it hard to share full, script-enabled Spreadsheet systems. ";
-  labelText += " You can solve this problem by pasting the code below into a script file called \"paste preconfig here\" (go to Script Editor and look in left sidebar of the copyDown script) prior to publishing your Spreadsheet for others to copy. \n";
-  labelText += " After a user copies your spreadsheet, they will select \"Run initial installation.\"  This will preconfigure all needed script settings.  If you copied this system from someone as a spreadsheet, this has probably already been done for you.";
-  var label = app.createLabel(labelText);
-  var window = app.createTextArea().setWidth("100%").setHeight("300px");
-  var codeString = "//This section sets all script properties associated with this copyDown profile \n";
-  codeString += "var preconfigStatus = ScriptProperties.getProperty('preconfigStatus');\n";
-  codeString += "if (preconfigStatus!='true') {\n";
-  codeString += propertyString; 
-  codeString += "};\n";
-  codeString += "ScriptProperties.setProperty('preconfigStatus','true');\n";
-  window.setText(codeString);
-  panel.add(label);
-  panel.add(window);
-  app.add(panel);
-  ss.show(app);
-  return app;
+// Some of this code was borrowed and modified from the Flubaroo Script author Dave Abouav
+// It anonymously tracks script usage to Google Analytics, allowing our non-profit organization to report the impact of this work to funders
+// For original source see http://www.edcode.org
+
+function copyDown_logCopyDown()
+{
+  var systemName = ScriptProperties.getProperty("systemName")
+  NVSL.log("Formulas%20Copied%20Down", scriptName, scriptTrackingId, systemName)
 }
+
+
+function copyDown_logFirstInstall()
+{
+  var systemName = ScriptProperties.getProperty("systemName")
+  NVSL.log("First%20Install", scriptName, scriptTrackingId, systemName)
+}
+
+
+function copyDown_logRepeatInstall()
+{
+  var systemName = ScriptProperties.getProperty("systemName")
+  NVSL.log("Repeat%20Install", scriptName, scriptTrackingId, systemName)
+}
+
+
+function setCopyDownSid()
+{ 
+  var copydown_sid = ScriptProperties.getProperty("copydown_sid");
+  if (copydown_sid == null || copydown_sid == "")
+    {
+      // user has never installed formMule before (in any spreadsheet)
+      var dt = new Date();
+      var ms = dt.getTime();
+      var ms_str = ms.toString();
+      ScriptProperties.setProperty("copydown_sid", ms_str);
+      var copydown_uid = UserProperties.getProperty("copydown_uid");
+      if (copydown_uid != null || copydown_uid != "") {
+        copyDown_logRepeatInstall();
+      }else{
+        copyDown_logFirstInstall();
+      }
+    }
+}
+
