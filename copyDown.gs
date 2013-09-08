@@ -1,4 +1,4 @@
-var scriptTitle = "copyDown Script V2.2 (11/7/12)";
+var scriptTitle = "copyDown Script V2.2.3 (9/8/13)";
 // Written by Andrew Stillman for New Visions for Public Schools
 // Published under GNU General Public License, version 3 (GPL-3.0)
 // See restrictions at http://www.opensource.org/licenses/gpl-3.0.html
@@ -42,7 +42,6 @@ function copyDown_initialize() {
 
 
 function copyDown_createJob() {
-  copyDown_getInstitutionalTrackerObject();
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var properties = ScriptProperties.getProperties();
   var sheets = ss.getSheets();
